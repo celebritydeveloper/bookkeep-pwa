@@ -1,79 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bookkeep PWA</title>
-    <link rel="stylesheet" href="css/bootstrap-4.4.1/dist/css/bootstrap.min.css">
-</head>
-<body class="bg-light">
+    <link rel="stylesheet" href="css/bootstrap-4.4.1/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
     <div class="container">
-        <div class="row mt-5">
-            <div class="col text-center">
-                <img src="images/bfaf-full-color.png" alt="">
-            </div>
-        </div>
-    </div>
-    <div class="container mt-5">
         <div class="row">
             <div class="col">
-                <h5>Create Your Account</h5>
-
-                <form>
-                    <div class="form-row">
-                      <div class="col-md-4 mb-3">
-                        <label for="validationServer01">Business Name</label>
-                        <input type="text" class="form-control is-valid" id="validationServer01" value="Mark" required>
-                        <div class="valid-feedback">
-                          Looks good!
-                        </div>
-                      </div>
-                      <div class="col-md-4 mb-3">
-                        <label for="validationServer02">Business Email Address</label>
-                        <input type="text" class="form-control is-valid" id="validationServer02" value="Otto" required>
-                        <div class="valid-feedback">
-                          Looks good!
-                        </div>
-                      </div>
-
-                      <div class="col-md-6 mb-3">
-                        <label for="validationServer03">Password</label>
-                        <input type="password" class="form-control is-invalid" id="validationServer03" required>
-                        <div class="invalid-feedback">
-                          Please provide a valid city.
-                        </div>
-                      </div>
-                      
-                    </div>
-                    <div class="form-row">
-                      <div class="col-md-3 mb-3">
-                        <label for="validationServer04">State</label>
-                        <select class="custom-select is-invalid" id="validationServer04" required>
-                          <option selected disabled value="">Choose...</option>
-                          <option>...</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Please select a valid state.
-                        </div>
-                      </div>
-                      
-                    </div>
-                    <small class="">
-                        By creating  an account you agree to BOOKKEEP <a href="#">Terms</a> and <a href="#">Conditions</a>.
-                      </small>
-                    <div class="form-row mt-3">
-                        <div class="col text-center">
-                            <button class="btn btn-success btn-lg" type="submit">CREATE ACCOUNT</button>
-                        </div>
-                        
-                    </div>
-                    <p class="text-center">
-                        Already have an account? <a href="#">Login</a> 
-                      </p>
-                  </form>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <a class="navbar-brand" href="#"><i class="icofont-notification"></i></a>
+                
+                  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                      <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                      </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                  </div>
+                </nav>
+                
 
             </div>
         </div>
     </div>
+
+    <section class="container mt-5">
+      <h5>Hello, Whyte</h5>
+      <div>
+        <p>Here is how Efiko Media is doing this week - May 3 - May 9th, 2020</p>
+      </div>
+    </section>
+
+    <section class="container" style="width: 590px; overflow: hidden; overflow-x: scroll; border: 1px solid red;">
+      <div class="row" >
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <span><i class="icofont-coins"></i></span>
+              <h5 class="card-title">INCOME</h5>
+              <p class="card-text">150,000 <span>NGN</span></p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <span><i class="icofont-coins"></i></span>
+              <h5 class="card-title">INCOME</h5>
+              <p class="card-text">150,000 <span>NGN</span></p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="css/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+    <script src="css/bootstrap-4.4.1/js/dist/collapse.js"></script>
 </body>
 </html>
