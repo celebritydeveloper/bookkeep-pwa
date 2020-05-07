@@ -6,7 +6,7 @@ let password = document.getElementById("password")
 let verifyPassword = document.getElementById("confirmPassword")
 let state = document.getElementById("location")
 
-let inputs = [businessName, email, password, verifyPassword, state];
+let inputs = [businessName, email, password, verifyPassword, state]
 
 // User constructor
 class User {
@@ -27,16 +27,6 @@ inputs.forEach((input) => {
     validate(input)
   })
 })
-
-//clear fields
-function clearFields() {
-  businessName.value = ""
-  email.value = ""
-  password.value = ""
-  verifyPassword.value = ""
-  state.value = state.options[0].value;
-
-}
 
 // function validate form
 function validate(input) {
@@ -110,7 +100,10 @@ function validate(input) {
       return false
     }
   } else if (input.id === "location") {
-    if (input.value !== input.options[1].value && input.value !== input.options[0].value) {
+    if (
+      input.value !== input.options[1].value &&
+      input.value !== input.options[0].value
+    ) {
       //remove invalid class if its already there
       input.classList.remove("is-invalid")
       //add the valid class
@@ -140,13 +133,11 @@ form.addEventListener("submit", (e) => {
               email.value,
               password.value,
               state.value
-            );
+            )
 
-            console.log(newUser);
-            
+            console.log(newUser)
 
             //clear fields
-            form.reset();
+            form.reset()
           }
-          
 })
