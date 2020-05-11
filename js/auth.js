@@ -31,7 +31,7 @@ inputs.forEach((input) => {
 // function validate form
 function validate(input) {
   //get confirm password container
-  let confirmPasswordContainer = document.getElementById("confirm-password")
+  let confirmPasswordContainer = document.getElementById("confirm-password");
   let emailPattern = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
 
   if (input.id === "businessName") {
@@ -137,7 +137,10 @@ form.addEventListener("submit", (e) => {
             )
 
             console.log(newUser)
-
+            businessName.classList.remove("is-valid");
+            email.classList.remove("is-valid");
+            password.classList.remove("is-valid");
+            state.classList.remove("is-valid");
             //clear fields
             form.reset()
           }
