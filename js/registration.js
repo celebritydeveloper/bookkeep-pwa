@@ -18,6 +18,48 @@ class User {
   }
 }
 
+// Store Class : Handle Storage
+class Store {
+  static getUsers() {
+    let users
+    if (localStorage.getItem("users") === null) {
+      users = []
+    } else {
+      users = JSON.parse(localStorage.getItem("users"))
+    }
+    return users
+  }
+
+  static addUser(user) {
+    const users = Store.getUsers()
+    users.push(user)
+    localStorage.setItem("users", JSON.stringify(users))
+    console.log(users)
+  }
+
+  static checkUser(email) {
+    let users = Store.getUsers()
+    let isExist = false // user does'nt exist
+
+    users.forEach((user) => {
+      if (user.email === email) {
+        isExist = true // user  exist
+        console.log("user already exist")
+      } else {
+        isExist = false // user does'nt exist
+        console.log("user does not exist")
+      }
+    })
+
+    return isExist
+  }
+
+  static clearData() {
+    let users = []
+    localStorage.setItem("users", JSON.stringify(users))
+  }
+}
+
 //validate inputs on input and on blur
 inputs.forEach((input) => {
   input.addEventListener("blur", () => {
@@ -31,7 +73,7 @@ inputs.forEach((input) => {
 // function validate form
 function validate(input) {
   //get confirm password container
-  let confirmPasswordContainer = document.getElementById("confirm-password");
+  let confirmPasswordContainer = document.getElementById("confirm-password")
   let emailPattern = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
 
   if (input.id === "businessName") {
@@ -45,7 +87,6 @@ function validate(input) {
     } else {
       input.classList.add("is-invalid")
       document.querySelector("#valid-feedback-1").classList.add("d-none")
-      input.focus()
       return false
     }
   } else if (input.id === "businessEmail") {
@@ -59,7 +100,6 @@ function validate(input) {
     } else {
       input.classList.add("is-invalid")
       document.querySelector("#valid-feedback-2").classList.add("d-none")
-      input.focus()
       return false
     }
   } else if (input.id === "password") {
@@ -80,7 +120,6 @@ function validate(input) {
       //hide confirm password
       confirmPasswordContainer.classList.add("d-none")
       document.querySelector("#valid-feedback-3").classList.remove("d-none")
-      input.focus()
       return false
     }
   } else if (input.id === "confirmPassword") {
@@ -97,7 +136,6 @@ function validate(input) {
     } else {
       input.classList.add("is-invalid")
       document.querySelector("#valid-feedback-4").classList.remove("d-none")
-      input.focus()
       return false
     }
   } else if (input.id === "location") {
@@ -114,7 +152,6 @@ function validate(input) {
     } else {
       input.classList.add("is-invalid")
       document.querySelector("#valid-feedback-5").classList.remove("d-none")
-      input.focus()
       return false
     }
   }
@@ -135,13 +172,24 @@ form.addEventListener("submit", (e) => {
               password.value,
               state.value
             )
+            //check if user exist
+            if (Store.checkUser(email.value)) {
+              alert(`user with email: ${email.value} already exist`)
+              return false
+            } else {
+              //Add user to Local Storage
+              Store.addUser(newUser)
 
-            console.log(newUser)
-            businessName.classList.remove("is-valid");
-            email.classList.remove("is-valid");
-            password.classList.remove("is-valid");
-            state.classList.remove("is-valid");
-            //clear fields
-            form.reset()
+              // remove the valid class
+              businessName.classList.remove("is-valid")
+              email.classList.remove("is-valid")
+              password.classList.remove("is-valid")
+              state.classList.remove("is-valid")
+
+              //clear fields
+              form.reset()
+              alert("Registration successfull")
+              return true
+            }
           }
 })
