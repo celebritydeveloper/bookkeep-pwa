@@ -72,13 +72,14 @@ function validate(input) {
 
       //show confirm passwo
       confirmPasswordContainer.classList.remove("d-none")
-      document.querySelector("#valid-feedback-3").classList.remove("d-none")
+
       return true
     } else {
       input.classList.add("is-invalid")
 
       //hide confirm password
       confirmPasswordContainer.classList.add("d-none")
+      document.querySelector("#valid-feedback-3").classList.remove("d-none")
       input.focus()
       return false
     }
@@ -119,7 +120,7 @@ function validate(input) {
   }
 }
 
-// Event create a user
+// Event create a new user
 form.addEventListener("submit", (e) => {
   e.preventDefault()
 
