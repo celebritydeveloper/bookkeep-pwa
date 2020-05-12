@@ -7,6 +7,31 @@ let inputs = [email, password]
 
 //user database : local storage
 class Store {
+  static getCurrentUser() {
+    let currentUser
+    if (sessionStorage.getItem("currentUser") === null) {
+      currentUser = {}
+    } else {
+      currentUser = JSON.parse(sessionStorage.getItem("currentUser"))
+    }
+    return currentUser
+  }
+
+  static currentUser(email) {
+    let users = Store.getUsers()
+    let currentUser = Store.getCurrentUser()
+
+    users.forEach((user) => {
+      if (user.email === email) {
+        currentUser = user
+        sessionStorage.setItem("currentUser", JSON.stringify(currentUser))
+        return true
+      } else {
+        return false
+      }
+    })
+  }
+
   static getUsers() {
     let users
     if (localStorage.getItem("users") === null) {
@@ -24,10 +49,9 @@ class Store {
     users.forEach((user) => {
       if (user.email === email && user.password === password) {
         isDetails = true // login details match
-        console.log("user already exist")
+        return true
       } else {
-        isDetails = false // login details doestn match
-        console.log("user does not exist")
+        return false
       }
     })
 
@@ -87,7 +111,10 @@ form.addEventListener("submit", (e) => {
     if (validate(password)) {
       if (Store.checkUser(email.value, password.value)) {
         alert("Login successful")
-
+        //set current user
+        Store.currentUser(email.value)
+        //redirect to home
+        location.replace("/index.html")
         //set form to default state
         form.reset()
         email.classList.remove("is-valid")

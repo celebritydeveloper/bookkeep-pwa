@@ -10,8 +10,9 @@ let inputs = [businessName, email, password, verifyPassword, state]
 
 // User constructor
 class User {
-  constructor(name, email, password, state) {
-    ;(this.name = name),
+  constructor(id, name, email, password, state) {
+    ;(this.id = id),
+      (this.name = name),
       (this.email = email),
       (this.password = password),
       (this.state = state)
@@ -54,21 +55,24 @@ class Store {
     return isExist
   }
 
+  static generateID(user) {
+    let ID, users
+    users = Store.getUsers()
+    //check if there is a user
+    if (users.length) {
+      //get the last user id and add 1 to
+      ID = users[users.length - 1].id + 1
+    } else {
+      ID = 1
+    }
+    user.id = ID
+  }
+
   static clearData() {
     let users = []
     localStorage.setItem("users", JSON.stringify(users))
   }
 }
-
-//validate inputs on input and on blur
-inputs.forEach((input) => {
-  input.addEventListener("blur", () => {
-    validate(input)
-  })
-  input.addEventListener("input", () => {
-    validate(input)
-  })
-})
 
 // function validate form
 function validate(input) {
@@ -157,6 +161,16 @@ function validate(input) {
   }
 }
 
+//validate inputs on input and on blur
+inputs.forEach((input) => {
+  input.addEventListener("blur", () => {
+    validate(input)
+  })
+  input.addEventListener("input", () => {
+    validate(input)
+  })
+})
+
 // Event create a new user
 form.addEventListener("submit", (e) => {
   e.preventDefault()
@@ -167,6 +181,7 @@ form.addEventListener("submit", (e) => {
         if (validate(verifyPassword))
           if (validate(state)) {
             let newUser = new User(
+              0,
               businessName.value,
               email.value,
               password.value,
@@ -177,6 +192,8 @@ form.addEventListener("submit", (e) => {
               alert(`user with email: ${email.value} already exist`)
               return false
             } else {
+              // Asign User id
+              Store.generateID(newUser)
               //Add user to Local Storage
               Store.addUser(newUser)
 
