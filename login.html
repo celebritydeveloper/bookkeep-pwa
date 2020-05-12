@@ -20,20 +20,20 @@
             <div class="col">
                 <h5 class="mb-3">Login</h5>
 
-                <form id="register-form">
+                <form id="login-form">
                     <div class="form-row">
                       <div class="col-md-4 mb-3">
-                        <label for="validationServer02">Email Address</label>
-                        <input type="email" class="form-control is-valid" id="validationServer02" value="hello@example.com" required>
-                        <div class="valid-feedback">
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control " id="email"  >
+                        <div class="valid-feedback d-none" id="valid-feedback">
                           Looks good!
                         </div>
                       </div>
 
                       <div class="col-md-6 mb-3">
-                        <label for="validationServer03">Password</label>
-                        <input type="password" class="form-control is-invalid" id="validationServer03" required>
-                        <div class="invalid-feedback">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control " id="password" >
+                        <div class="invalid-feedback d-none" id="valid-feedback-2">
                           Please provide a valid password.
                         </div>
                       </div>
@@ -58,4 +58,5 @@
     </div>
 
 </body>
+<script src="js/login.js"></script>
 </html>
