@@ -14,8 +14,6 @@ function populateState() {
         )
 
         select.appendChild(option)
-
-        console.log(location.name)
       })
     }
   }
