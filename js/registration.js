@@ -87,6 +87,7 @@ function validate(input) {
     } else {
       input.classList.add("is-invalid")
       document.querySelector("#valid-feedback-1").classList.add("d-none")
+      input.focus();
       return false
     }
   } else if (input.id === "businessEmail") {
@@ -99,7 +100,8 @@ function validate(input) {
       return true
     } else {
       input.classList.add("is-invalid")
-      document.querySelector("#valid-feedback-2").classList.add("d-none")
+      document.querySelector("#valid-feedback-2").classList.add("d-none");
+      input.focus();
       return false
     }
   } else if (input.id === "password") {
@@ -119,7 +121,8 @@ function validate(input) {
 
       //hide confirm password
       confirmPasswordContainer.classList.add("d-none")
-      document.querySelector("#valid-feedback-3").classList.remove("d-none")
+      document.querySelector("#valid-feedback-3").classList.remove("d-none");
+      input.focus();
       return false
     }
   } else if (input.id === "confirmPassword") {
@@ -135,7 +138,8 @@ function validate(input) {
       return true
     } else {
       input.classList.add("is-invalid")
-      document.querySelector("#valid-feedback-4").classList.remove("d-none")
+      document.querySelector("#valid-feedback-4").classList.remove("d-none");
+      input.focus();
       return false
     }
   } else if (input.id === "location") {
@@ -151,7 +155,8 @@ function validate(input) {
       return true
     } else {
       input.classList.add("is-invalid")
-      document.querySelector("#valid-feedback-5").classList.remove("d-none")
+      document.querySelector("#valid-feedback-5").classList.remove("d-none");
+      input.focus();
       return false
     }
   }
