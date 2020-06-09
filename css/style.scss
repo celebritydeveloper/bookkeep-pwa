@@ -18,3 +18,16 @@ body {
     background-position: center;
     background-size: cover;
 }
+
+.field-icon {
+    float: right;
+    margin-left: -55px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+}
+
+input[type="password"]{
+    background: none;
+}
+  

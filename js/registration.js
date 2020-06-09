@@ -74,7 +74,8 @@ inputs.forEach((input) => {
 function validate(input) {
   //get confirm password container
   let confirmPasswordContainer = document.getElementById("confirm-password")
-  let emailPattern = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/
+  let emailPattern = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
+  let passwordPattern = /^(?=.{6,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
 
   if (input.id === "businessName") {
     if (input.value.trim() !== "") {
@@ -105,14 +106,14 @@ function validate(input) {
       return false
     }
   } else if (input.id === "password") {
-    if (input.value.trim().length > 6 && input.value.trim() !== "") {
+    if (input.value.trim().length > 6 && input.value.trim() !== "" && passwordPattern.test(input.value.trim())) {
       //remove invalid class if its already there
-      input.classList.remove("is-invalid")
+      input.classList.remove("is-invalid");
       //add the valid class
       input.classList.add("is-valid")
-      document.querySelector("#valid-feedback-3").classList.add("d-none")
+      document.querySelector("#valid-feedback-3").classList.add("d-none");
 
-      //show confirm passwo
+      //show confirm password
       confirmPasswordContainer.classList.remove("d-none")
 
       return true
@@ -171,30 +172,32 @@ form.addEventListener("submit", (e) => {
       if (validate(password))
         if (validate(verifyPassword))
           if (validate(state)) {
-            let newUser = new User(
-              businessName.value,
-              email.value,
-              password.value,
-              state.value
-            )
+            // let newUser = new User(
+            //   businessName.value,
+            //   email.value,
+            //   password.value,
+            //   state.value
+            // )
             //check if user exist
-            if (Store.checkUser(email.value)) {
-              alert(`user with email: ${email.value} already exist`)
-              return false
-            } else {
-              //Add user to Local Storage
-              Store.addUser(newUser)
+            // if (Store.checkUser(email.value)) {
+            //   alert(`user with email: ${email.value} already exist`)
+            //   return false
+            // } else {
+            //   //Add user to Local Storage
+            //   Store.addUser(newUser)
 
               // remove the valid class
               businessName.classList.remove("is-valid")
               email.classList.remove("is-valid")
               password.classList.remove("is-valid")
+              verifyPassword.classList.remove("is-valid")
               state.classList.remove("is-valid")
 
               //clear fields
               form.reset()
-              alert("Registration successfull")
+              console.log("Registration successfull");
               return true
-            }
           }
 })
+
+
