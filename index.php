@@ -1,22 +1,25 @@
 <?php
 
-session_start();
+//session_start();
 
-$con = new mysqli('localhost', 'rosmohrh_essien', 'Coding3719.', 'rosmohrh_bookkeep');
+include('session.php');
 
-$user = $_SESSION["user_id"];
+// $con = new mysqli('localhost', 'rosmohrh_essien', 'Coding3719.', 'rosmohrh_bookkeep');
 
-$sql = $con->query("SELECT * FROM users WHERE id='$user'");
+echo $_SESSION["user"];
 
-if ($sql->num_rows > 0) {
+// $sql = $con->query("SELECT * FROM users WHERE id='$user'");
+
+// if ($sql->num_rows > 0) {
                 
-    $data = $sql->fetch_array();
+//     $data = $sql->fetch_array();
 
-    $name = $data['businessName'];
-    $email = $data['email'];
+//     $name = $data['businessName'];
+//     $email = $data['email'];
 
-}
+// }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +46,10 @@ if ($sql->num_rows > 0) {
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="add-customer.php?id=<?php echo $user; ?>">Link</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Logout</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -62,9 +68,9 @@ if ($sql->num_rows > 0) {
     </div>
 
     <section class="container mt-5">
-      <h5>Hello, <?php echo $name; ?></h5>
+      <h5>Hello,  Welcome : <i><?php echo $_SESSION["user"]; ?></h5>
       <div>
-        <p>Here is how <?php echo $name; ?> is doing this week - May 3 - May 9th, 2020</p>
+        <p>Here is how is doing this week - May 3 - May 9th, 2020</p>
       </div>
     </section>
 
@@ -107,6 +113,11 @@ if ($sql->num_rows > 0) {
   </div>
 </div>
 
+<form >
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <button type="button" onclick="payWithPaystack()"> Pay </button> 
+</form>
+
 
     
     <script src="css/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
@@ -119,5 +130,34 @@ if ($sql->num_rows > 0) {
     $(".toast").toast('show');
 });
     </script>
+
+
+<script>
+  function payWithPaystack(){
+    var handler = PaystackPop.setup({
+      key: 'pk_live_133617b33f759471b002c34019b757a42b660d14',
+      email: 'customer@email.com',
+      plan: "PLN_d1zpfsoty0jctgh",
+      ref: "",
+      metadata: {
+         custom_fields: [
+            {
+                display_name: "Mobile Number",
+                variable_name: "mobile_number",
+                value: "+2348012345678"
+            }
+         ]
+      },
+      callback: function(response){
+          alert('successfully subscribed. transaction ref is ' + response.reference);
+      },
+      onClose: function(){
+          alert('window closed');
+      }
+    });
+    handler.openIframe();
+  }
+</script>
+</script>
 </body>
 </html>

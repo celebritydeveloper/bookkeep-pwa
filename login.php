@@ -1,37 +1,12 @@
 <?php
-session_start();
-	$msg = "";
 
-	if (isset($_POST['submit'])) {
-		$con = new mysqli('localhost', 'rosmohrh_essien', 'Coding3719.', 'rosmohrh_bookkeep');
+include('login-process.php'); // Includes Login Script
+//session_start();
 
-		$email = $con->real_escape_string($_POST['email']);
-		$password = $con->real_escape_string($_POST['password']);
-
-		if ($email == "" || $password == "")
-			$msg = "Please check your inputs!";
-		else {
-			$sql = $con->query("SELECT id, password, isEmailConfirmed FROM users WHERE email='$email'");
-			if ($sql->num_rows > 0) {
-                
-                $data = $sql->fetch_array();
-                $_SESSION["user_id"] = $data['id'];
-                if (password_verify($password, $data['password'])) {
-                    if ($data['isEmailConfirmed'] == 0) {
-                        $msg = "Please verify your email!";
-                    } else {
-                        $msg = "You have been logged in";
-                        header("Location: index.php");
-                        $_SESSION["favcolor"] = "Welcome";
-                    }
-                } else {
-                    $msg = "Your Email or Password is Wrong";
-                }  
-			} else {
-				$msg = "User doesn't exisit";
-			}
-		}
-	}
+if(isset($_SESSION['user'])){
+  echo $_SESSION['user'];
+header("location: profile.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +31,7 @@ session_start();
                 <h5 class="mb-3">Login</h5>
                 <?php if ($msg != "") echo $msg . "<br><br>" ?>
 
-                <form id="login-for" method="POST" action="login.php">
+                <form id="login-for" method="POST" action="">
                     <div class="form-row">
                       <div class="col-md-4 mb-3">
                         <label for="email">Email Address</label>

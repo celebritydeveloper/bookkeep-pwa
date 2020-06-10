@@ -1,23 +1,35 @@
 <?php
-echo  "You have been registered! Please verify your email!";
-	$msg = "";
-	use PHPMailer\PHPMailer\PHPMailer;
 
-	if (isset($_POST['submit'])) {
-		$con = new mysqli('localhost', 'root', '', 'bookkeep');
+  include('config.php');
+  session_start();
+  if(isset($_SESSION['user'])){
+    echo $_SESSION['user'];
+  //header("location: profile.php");
+  echo "<script>window.location.assign('profile.php')</script>";
+  }
+  $msg = "";
+  $msgClass = "alert alert-";
+  // use PHPMailer\PHPMailer\PHPMailer  ;
+  
+  // require 'PHPMailer/Exception.php';
+  // require 'PHPMailer/PHPMailer.php';
+  // require 'PHPMailer/SMTP.php';
 
-		$name = $con->real_escape_string($_POST['name']);
-		$email = $con->real_escape_string($_POST['email']);
-		$password = $con->real_escape_string($_POST['password']);
-		$cPassword = $con->real_escape_string($_POST['cPassword']);
-		$location = $con->real_escape_string($_POST['location']);
+	if (isset($_POST['name'])) {
 
-		if ($name == "" || $email == "" || $password != $cPassword || $location)
-			$msg = "Please check your inputs!";
+		$name = $conn->real_escape_string($_POST['name']);
+		$email = $conn->real_escape_string($_POST['email']);
+		$password = $conn->real_escape_string($_POST['password']);
+		//$cPassword = $conn->real_escape_string($_POST['cPassword']);
+		$location = $conn->real_escape_string($_POST['location']);
+
+		if ($name == "" || $email == "" || $password == "")
+            echo "Please check your inputs!";
 		else {
-			$sql = $con->query("SELECT id FROM users WHERE email='$email'");
+			$sql = $conn->query("SELECT id FROM users WHERE email='$email'");
 			if ($sql->num_rows > 0) {
-				$msg = "Email already exists in the database!";
+                $msg = "Email already exists!";
+                echo "Email already exists!";
 			} else {
 				$token = 'qwertzuiopasdfghjklyxcvbnmQWERTZUIOPASDFGHJKLYXCVBNM0123456789!$/()*';
 				$token = str_shuffle($token);
@@ -25,33 +37,46 @@ echo  "You have been registered! Please verify your email!";
 
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-				$con->query("INSERT INTO users (businessName,email,password,location,isEmailConfirmed,token)
-					VALUES ('$name', '$email', '$hashedPassword', 'location', '0', '$token');
-				");
+				$result = "INSERT INTO users (businessName,email,passcode,location,isEmailConfirmed,token)
+					VALUES ('$name', '$email', '$hashedPassword', '$location', '0', '$token');
+				";
 
-                include_once "PHPMailer/PHPMailer.php";
+                // include_once "PHPMailer/PHPMailer.php";
 
-                $mail = new PHPMailer();
-                $mail->setFrom('hello@codingpassiveincome.com');
-                $mail->addAddress($email, $name);
-                $mail->Subject = "Please verify email!";
-                $mail->isHTML(true);
-                $mail->Body = "
-                    Please click on the link below:<br><br>
-                    
-                    <a href='http://theboringcreatives.com/Bookkeep/confirm.php?email=$email&token=$token'>Click Here</a>
-                ";
+                // $mail = new PHPMailer();
 
-                if ($mail->send()){
-					$msg = "You have been registered! Please verify your email!";
-					echo "You have been registered! Please verify your email!";
-				}else{
+                // SMTP Settings
+                // $mail->isSMTP();
+                // $mail->Host = "smtp.gmail.com";
+                // $mail->SMTPAuth = true;
+                // $mail->Username = "essiensaviour.a@gmail.com";
+                // $mail->Password = "Coding3719.";
+                // $mail->Port = 465;
+                // $mail->SMTPsecure = "ssl";
                 
-					$msg = "Something wrong happened! Please try again!";
-					echo "Not have been registered! Please verify your email!";
-				}
+                // $mail->setFrom('hello@theboringcreatives.com');
+                // $mail->addAddress($email, $name);
+                // $mail->Subject = "Please verify email!";
+                // $mail->isHTML(true);
+                // $mail->Body = "
+                //     Please click on the link below:<br><br>
+                    
+                //     <a href='http://theboringcreatives.com/Bookkeep/confirm.php?email=$email&token=$token'>Click Here</a>
+                // ";
+
+                if ($conn->query($result)) {
+                  echo "You have been registered! Please verify your email!";
+                }else {
+                  $msg = "Something wrong happened! Please try again!";
+                  echo "There was a problem";
+                  echo "Error: " . $result . "<br>" . $conn->error;
+
+                }
+
+                $conn->close();
+                    
 			}
 		}
-	}
-	
+  }
+
 ?>

@@ -1,7 +1,7 @@
 //get inputs
 let email = document.getElementById("email")
 let password = document.getElementById("password")
-let form = document.getElementById("login-form")
+let form = document.getElementById("login-form");
 
 let inputs = [email, password];
 

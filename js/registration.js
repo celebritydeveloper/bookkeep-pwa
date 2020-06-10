@@ -1,74 +1,23 @@
-//get inputs
-let form = document.getElementById("register-form")
-let businessName = document.getElementById("businessName")
-let email = document.getElementById("businessEmail")
-let password = document.getElementById("password")
-let verifyPassword = document.getElementById("confirmPassword")
-let state = document.getElementById("location")
 
-let inputs = [businessName, email, password, verifyPassword, state]
+      const form = document.getElementById("register-form");
+      let businessName = document.getElementById("businessName")
+      let email = document.getElementById("businessEmail")
+      let password = document.getElementById("password")
+      let verifyPassword = document.getElementById("confirmPassword")
+      let state = document.getElementById("location")
+            let response = document.getElementById("response");
 
-// User constructor
-class User {
-  constructor(name, email, password, state) {
-    ;(this.name = name),
-      (this.email = email),
-      (this.password = password),
-      (this.state = state)
-  }
-}
+      let inputs = [businessName, email, password, verifyPassword, state];
 
-// Store Class : Handle Storage
-class Store {
-  static getUsers() {
-    let users
-    if (localStorage.getItem("users") === null) {
-      users = []
-    } else {
-      users = JSON.parse(localStorage.getItem("users"))
-    }
-    return users
-  }
-
-  static addUser(user) {
-    const users = Store.getUsers()
-    users.push(user)
-    localStorage.setItem("users", JSON.stringify(users))
-    console.log(users)
-  }
-
-  static checkUser(email) {
-    let users = Store.getUsers()
-    let isExist = false // user does'nt exist
-
-    users.forEach((user) => {
-      if (user.email === email) {
-        isExist = true // user  exist
-        console.log("user already exist")
-      } else {
-        isExist = false // user does'nt exist
-        console.log("user does not exist")
-      }
-    })
-
-    return isExist
-  }
-
-  static clearData() {
-    let users = []
-    localStorage.setItem("users", JSON.stringify(users))
-  }
-}
-
-//validate inputs on input and on blur
-inputs.forEach((input) => {
-  input.addEventListener("blur", () => {
-    validate(input)
-  })
-  input.addEventListener("input", () => {
-    validate(input)
-  })
-})
+      //validate inputs on input and on blur
+          inputs.forEach((input) => {
+            input.addEventListener("blur", () => {
+              validate(input);
+            })
+            input.addEventListener("input", () => {
+              validate(input);
+            })
+          });
 
 // function validate form
 function validate(input) {
@@ -163,41 +112,47 @@ function validate(input) {
   }
 }
 
-// Event create a new user
-form.addEventListener("submit", (e) => {
-  e.preventDefault()
 
-  if (validate(businessName))
-    if (validate(email))
-      if (validate(password))
-        if (validate(verifyPassword))
-          if (validate(state)) {
-            // let newUser = new User(
-            //   businessName.value,
-            //   email.value,
-            //   password.value,
-            //   state.value
-            // )
-            //check if user exist
-            // if (Store.checkUser(email.value)) {
-            //   alert(`user with email: ${email.value} already exist`)
-            //   return false
-            // } else {
-            //   //Add user to Local Storage
-            //   Store.addUser(newUser)
 
-              // remove the valid class
+
+      form.addEventListener('submit', registerUser);
+
+      function registerUser(e) {
+        e.preventDefault();
+
+        if (validate(businessName))
+            if (validate(email))
+              if (validate(password))
+                if (validate(verifyPassword))
+                  if (validate(state)) {
+
+                    let ajax = new XMLHttpRequest();
+        
+        ajax.open("POST", "signup1.php", true);
+        ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        ajax.onload = function() {
+          console.log(this.responseText);
+          response.classList.add("alert-success")
+          response.textContent = this.responseText;
+          
+        }
+
+        ajax.send(`name=${businessName.value}&email=${email.value}&password=${password.value}&location=${state.value}`);
+        if(registerUser) {
+          form.reset();
+          // remove the valid class
               businessName.classList.remove("is-valid")
               email.classList.remove("is-valid")
               password.classList.remove("is-valid")
               verifyPassword.classList.remove("is-valid")
               state.classList.remove("is-valid")
+        }
 
-              //clear fields
-              form.reset()
-              console.log("Registration successfull");
-              return true
+
+
           }
-})
 
-
+        
+        
+      }

@@ -1,4 +1,11 @@
 <?php
+
+  include('config.php');
+  session_start();
+  if(isset($_SESSION['user'])){
+    echo $_SESSION['user'];
+  header("location: profile.php");
+  }
   $msg = "";
   $msgClass = "alert alert-";
   // use PHPMailer\PHPMailer\PHPMailer;
@@ -8,18 +15,17 @@
   // require 'PHPMailer/SMTP.php';
 
 	if (isset($_POST['submit'])) {
-		$con = new mysqli('localhost', 'rosmohrh_essien', 'Coding3719.', 'rosmohrh_bookkeep');
 
-		$name = $con->real_escape_string($_POST['name']);
-		$email = $con->real_escape_string($_POST['email']);
-		$password = $con->real_escape_string($_POST['password']);
-		$cPassword = $con->real_escape_string($_POST['cPassword']);
-		//$location = $con->real_escape_string($_POST['state']);
+		$name = $conn->real_escape_string($_POST['name']);
+		$email = $conn->real_escape_string($_POST['email']);
+		$password = $conn->real_escape_string($_POST['password']);
+		$cPassword = $conn->real_escape_string($_POST['cPassword']);
+		$location = $conn->real_escape_string($_POST['location']);
 
 		if ($name == "" || $email == "" || $password != $cPassword)
 			$msg = "Please check your inputs!";
 		else {
-			$sql = $con->query("SELECT id FROM users WHERE email='$email'");
+			$sql = $conn->query("SELECT id FROM users WHERE email='$email'");
 			if ($sql->num_rows > 0) {
 				$msg = "Email already exists in the database!";
 			} else {
@@ -29,13 +35,23 @@
 
 				$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-				$result = $con->query("INSERT INTO users (businessName,email,password,isEmailConfirmed,token)
-					VALUES ('$name', '$email', '$hashedPassword', '0', '$token');
-				");
+				$result = "INSERT INTO users (businessName,email,passcode,location,isEmailConfirmed,token)
+					VALUES ('$name', '$email', '$hashedPassword', '$location', '0', '$token');
+				";
 
                 // include_once "PHPMailer/PHPMailer.php";
 
                 // $mail = new PHPMailer();
+
+                // SMTP Settings
+                // $mail->isSMTP();
+                // $mail->Host = "smtp.gmail.com";
+                // $mail->SMTPAuth = true;
+                // $mail->Username = "essiensaviour.a@gmail.com";
+                // $mail->Password = "Coding3719.";
+                // $mail->Port = 465;
+                // $mail->SMTPsecure = "ssl";
+                
                 // $mail->setFrom('hello@theboringcreatives.com');
                 // $mail->addAddress($email, $name);
                 // $mail->Subject = "Please verify email!";
@@ -46,17 +62,22 @@
                 //     <a href='http://theboringcreatives.com/Bookkeep/confirm.php?email=$email&token=$token'>Click Here</a>
                 // ";
 
-                if ($result) {
+                if ($conn->query($result)) {
                   $msg = "You have been registered! Please verify your email!";
                   echo "It works";
                 }else {
                   $msg = "Something wrong happened! Please try again!";
                   echo "There was a problem";
+                  echo "Error: " . $result . "<br>" . $conn->error;
+
                 }
+
+                $conn->close();
                     
 			}
 		}
-	}
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -153,10 +174,9 @@
             <div class="form-row">
               <div class="col-md-10 mb-3">
                 <label for="location">State</label>
-                <select class="custom-select" id="location" name="state">
+                <select class="custom-select" id="location" name="location">
                   <option selected disabled value="">Choose a state...</option>
                   <option>...</option>
-                  <option value="Hi">Hi</option>
                 </select>
                 <div class="invalid-feedback d-none" id="valid-feedback-5">
                   Please select a valid state.
@@ -175,7 +195,7 @@
               </div>
             </div>
             <p class="login--notify mt-2 text-center">
-              Already have an account? <a href="#">Login</a>
+              Already have an account? <a href="login.php">Login</a>
             </p>
           </form>
         </div>
@@ -183,6 +203,7 @@
     </div>
 
     <script src="js/registration.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

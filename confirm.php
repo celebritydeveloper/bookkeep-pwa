@@ -1,11 +1,19 @@
 <?php
-	function redirect() {
+
+	session_start();
+	function redirectHome() {
 		header('Location: signup.php');
 		exit();
 	}
 
+	function redirectLogin() {
+		header('Location: login.php');
+		exit();
+	}
+
+
 	if (!isset($_GET['email']) || !isset($_GET['token'])) {
-		redirect();
+		redirectLogin();
 	} else {
 		$con = new mysqli('localhost', 'rosmohrh_essien', 'Coding3719.', 'rosmohrh_bookkeep');
 
@@ -16,8 +24,11 @@
 
 		if ($sql->num_rows > 0) {
 			$con->query("UPDATE users SET isEmailConfirmed=1, token='' WHERE email='$email'");
-			echo 'Your email has been verified! You can log in now!';
-		} else
-			redirect();
+			$_SESSION['confirmed'] = 'Your email has been verified! You can log in now!';
+			redirectLogin();
+		} else {
+			redirectHome();
+		}
+			
 	}
 ?>
