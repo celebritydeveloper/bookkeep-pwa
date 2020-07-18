@@ -6,15 +6,16 @@
     <title>Bookkeep PWA</title>
     <link
       rel="stylesheet"
-      href="css/bootstrap-4.4.1/dist/css/bootstrap.min.css"
+      href="./css/bootstrap-4.4.1/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="https://kit.fontawesome.com/9e1546c7fe.js" crossorigin="anonymous"></script>
   </head>
   <body class="bg-light">
     <div class="container">
       <div class="row mt-5">
         <div class="col text-center">
-          <img src="images/bfaf-full-color.png" alt="" />
+          <img src="./images/bfaf-full-color.png" alt="" />
         </div>
       </div>
     </div>
@@ -24,6 +25,8 @@
         <div class="col-md-6 offset-md-1 offset-sm-0">
           <h5 class="h2">Create Your Account</h5>
 
+
+          <div class="alert" id="response"></div>
           <form id="register-form">
             <div class="form-row">
               <div class="col-md-10 mb-3">
@@ -33,6 +36,7 @@
                   class="form-control"
                   id="businessName"
                   value=""
+                  name="name"
                 />
                 <div class="valid-feedback d-none" id="valid-feedback-1">
                   Looks good!
@@ -48,8 +52,9 @@
                   class="form-control"
                   id="businessEmail"
                   value=""
+                  name="email"
                 />
-                <div class="valid-feedback d-none" id="valid-feedback-2">
+                <div class="valid-feedback d-none" id="valid-feedback-1">
                   Looks good!
                 </div>
               </div>
@@ -58,31 +63,43 @@
             <div class="form-row">
               <div class="col-md-10 mb-3">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" />
-                <div class="invalid-feedback d-none" id="valid-feedback-3">
+                <input type="password" class="form-control" id="password" name="password">
+                <span toggle="#password-field" onclick="myFunction()" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                <div class="invalid-feedback d-none" id="invalid-feedback-2">
                   Password is too short.
                 </div>
+                <div class="valid-feedback d-none" id="valid-feedback-2">
+                  Password is secure!
+                </div>
               </div>
+              <!--<div class="col-md-1 mt-4">
+                <input type="text" class="form-control" value="hi">
+              <button type="button" onclick="myFunction()" title="Show Password"><span class="fa fa-eye-slash"></span> Hi</button>
+              </div>-->
             </div>
+
             <div class="form-row">
-              <div class="col-md-6 mb-3 d-none" id="confirm-password">
+              <div class="col-md-10 mb-3 d-none" id="confirm-password">
                 <label for="confirmPassword">Confirm Password</label>
                 <input
                   type="password"
                   class="form-control"
                   id="confirmPassword"
+                  name="cPassword"
                 />
-                <div class="invalid-feedback d-none" id="valid-feedback-4">
+                <div class="invalid-feedback d-none" id="invalid-feedback-4">
                   Password must match
+                </div>
+                <div class="valid-feedback d-none" id="valid-feedback-3">
+                  Password matches
                 </div>
               </div>
             </div>
             <div class="form-row">
               <div class="col-md-10 mb-3">
                 <label for="location">State</label>
-                <select class="custom-select" id="location">
+                <select class="custom-select" id="location" name="location">
                   <option selected disabled value="">Choose a state...</option>
-                  <option>...</option>
                 </select>
                 <div class="invalid-feedback d-none" id="valid-feedback-5">
                   Please select a valid state.
@@ -95,20 +112,209 @@
             </small>
             <div class="form-row mt-3">
               <div class="col-md-10 text-center">
-                <button class="btn btn-success btn-lg btn-wide" type="submit">
+                <button class="btn btn-success btn-lg btn-wide" id="sub" type="submit">
                   CREATE ACCOUNT
                 </button>
               </div>
             </div>
             <p class="login--notify mt-2 text-center">
-              Already have an account? <a href="#">Login</a>
+              Already have an account? <a href="login.html">Login</a>
             </p>
           </form>
         </div>
       </div>
     </div>
 
-    <script src="js/registration.js"></script>
-    <script src="js/app.js"></script>
+
+
+    <!--<script src="js/registration.js"></script>-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyDgo5Wx7trMR5oYsz31sQw-yLIjtQubwwA",
+        authDomain: "book-keep-5d162.firebaseapp.com",
+        databaseURL: "https://book-keep-5d162.firebaseio.com",
+        projectId: "book-keep-5d162",
+        appId: "1:81050176656:web:c71dbb79d52ab071b11c15",
+        measurementId: "G-2R9P2RQ2FP"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      //firebase.analytics();
+
+      // Make auth and firestore method reference
+      const auth = firebase.auth();
+      const database = firebase.firestore();
+
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/auth.js"></script>
+
+
+    <script>
+
+//       const form = document.getElementById("register-form");
+//       let businessName = document.getElementById("businessName")
+//       let email = document.getElementById("businessEmail")
+//       let password = document.getElementById("password")
+//       let verifyPassword = document.getElementById("confirmPassword")
+//       let state = document.getElementById("location")
+//             let response = document.getElementById("response");
+
+//       let inputs = [businessName, email, password, verifyPassword, state];
+
+//       //validate inputs on input and on blur
+//           inputs.forEach((input) => {
+//             input.addEventListener("blur", () => {
+//               validate(input);
+//             })
+//             input.addEventListener("input", () => {
+//               validate(input);
+//             })
+//           });
+
+// // function validate form
+// function validate(input) {
+//   //get confirm password container
+//   let confirmPasswordContainer = document.getElementById("confirm-password")
+//   let emailPattern = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
+//   let passwordPattern = /^(?=.{6,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
+
+//   if (input.id === "businessName") {
+//     if (input.value.trim() !== "") {
+//       //remove invalid class if its already there
+//       input.classList.remove("is-invalid")
+//       //add the valid class
+//       input.classList.add("is-valid")
+//       document.querySelector("#valid-feedback-1").classList.remove("d-none")
+//       return true
+//     } else {
+//       input.classList.add("is-invalid")
+//       document.querySelector("#valid-feedback-1").classList.add("d-none")
+//       input.focus();
+//       return false
+//     }
+//   } else if (input.id === "businessEmail") {
+//     if (emailPattern.test(input.value.trim())) {
+//       //remove invalid class if its already there
+//       input.classList.remove("is-invalid")
+//       //add the valid class
+//       input.classList.add("is-valid")
+//       document.querySelector("#valid-feedback-2").classList.remove("d-none")
+//       return true
+//     } else {
+//       input.classList.add("is-invalid")
+//       document.querySelector("#valid-feedback-2").classList.add("d-none");
+//       input.focus();
+//       return false
+//     }
+//   } else if (input.id === "password") {
+//     if (input.value.trim().length > 6 && input.value.trim() !== "" && passwordPattern.test(input.value.trim())) {
+//       //remove invalid class if its already there
+//       input.classList.remove("is-invalid");
+//       //add the valid class
+//       input.classList.add("is-valid")
+//       document.querySelector("#valid-feedback-3").classList.add("d-none");
+
+//       //show confirm password
+//       confirmPasswordContainer.classList.remove("d-none")
+
+//       return true
+//     } else {
+//       input.classList.add("is-invalid")
+
+//       //hide confirm password
+//       confirmPasswordContainer.classList.add("d-none")
+//       document.querySelector("#valid-feedback-3").classList.remove("d-none");
+//       input.focus();
+//       return false
+//     }
+//   } else if (input.id === "confirmPassword") {
+//     if (
+//       input.value.trim() === password.value.trim() &&
+//       input.value.trim() !== ""
+//     ) {
+//       //remove invalid class if its already there
+//       input.classList.remove("is-invalid")
+//       //add the valid class
+//       input.classList.add("is-valid")
+//       document.querySelector("#valid-feedback-4").classList.add("d-none")
+//       return true
+//     } else {
+//       input.classList.add("is-invalid")
+//       document.querySelector("#valid-feedback-4").classList.remove("d-none");
+//       input.focus();
+//       return false
+//     }
+//   } else if (input.id === "location") {
+//     if (
+//       input.value !== input.options[1].value &&
+//       input.value !== input.options[0].value
+//     ) {
+//       //remove invalid class if its already there
+//       input.classList.remove("is-invalid")
+//       //add the valid class
+//       input.classList.add("is-valid")
+//       document.querySelector("#valid-feedback-5").classList.add("d-none")
+//       return true
+//     } else {
+//       input.classList.add("is-invalid")
+//       document.querySelector("#valid-feedback-5").classList.remove("d-none");
+//       input.focus();
+//       return false
+//     }
+//   }
+// }
+
+
+
+
+//       form.addEventListener('submit', registerUser);
+
+//       function registerUser(e) {
+//         e.preventDefault();
+
+//         if (validate(businessName))
+//             if (validate(email))
+//               if (validate(password))
+//                 if (validate(verifyPassword))
+//                   if (validate(state)) {
+
+//                     let ajax = new XMLHttpRequest();
+        
+//         ajax.open("POST", "register.php", true);
+//         ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+//         ajax.onload = function() {
+//           console.log(this.responseText);
+//           response.classList.add("alert-success")
+//           response.textContent = this.responseText;
+          
+//         }
+
+//         ajax.send(`name=${businessName.value}&email=${email.value}&password=${password.value}&location=${state.value}`);
+//         if(registerUser) {
+//           form.reset();
+//           // remove the valid class
+//               businessName.classList.remove("is-valid")
+//               email.classList.remove("is-valid")
+//               password.classList.remove("is-valid")
+//               verifyPassword.classList.remove("is-valid")
+//               state.classList.remove("is-valid")
+//         }
+
+//           }
+        
+//       }
+    
+    </script>
   </body>
 </html>

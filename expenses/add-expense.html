@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookkeep PWA</title>
+    <link rel="stylesheet" href="../css/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../fonts/icofont/icofont.min.css">
+</head>
+<body class="bg-light">
+    <div class="container">
+        
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+              <p class=""><a href="expenses.html"><i class="icofont-arrow-left icofont-lg"></i></a></p>
+                <h5 class="text-center mb-4">Add New Expense</h5>
+                <div class="alert" id="response"></div>
+                <form id="expense-form">
+                    <div class="form-row">
+                        <!--<div class="col-md-3 mb-3">
+                            <label for="validationServer04">Category</label>
+                            <select class="custom-select is-invalid" id="validationServer04" required>
+                              <option selected disabled value="">Choose a state...</option>
+                              <option>...</option>
+                            </select>
+                            <div class="invalid-feedback">
+                              Please select a valid state.
+                            </div>
+                          </div>-->
+                      
+                      <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="validationServer02">Vendor Name</label>
+                        <input type="text" class="form-control is-valid" id="vendor">
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="validationServer01">Amount</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text  bg-danger text-white">NGN </div>
+                            </div>
+                            <input type="text" class="form-control" id="amount" placeholder="Username">
+                          </div>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-sm-12 mb-3">
+                        <label for="validationServer03">Date</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text  bg-danger text-white"><i class="icofont-calendar"></i> </div>
+                            </div>
+                            <input type="date" class="form-control" id="date" placeholder="Username">
+                          </div>
+                        <div class="invalid-feedback">
+                          Please provide a valid city.
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="form-row">
+                    <div class="col mb-3">
+                        <label for="validationServer03">Description (optional)</label>
+                        <textarea class="form-control" id="description" rows="3"></textarea>
+                        <div class="invalid-feedback">
+                            Password must match
+                        </div>
+                    </div>
+                      
+                    </div>
+                    <div class="form-row mt-3 mb-3">
+                        <div class="col text-center">
+                            <button class="btn btn-success btn-lg " type="submit">ADD EXPENSE</button>
+                        </div>
+                        
+                    </div>
+                  </form>
+            </div>
+        </div>
+        
+    </div>
+
+
+
+    <script>
+
+      const form = document.getElementById("expense-form");
+      let ven = document.getElementById("vendor");
+      let amount = document.getElementById("amount");
+      let date = document.getElementById("date");
+      let description = document.getElementById("description");
+      let response = document.getElementById("response");
+
+      name = JSON.stringify(ven);
+
+      form.addEventListener('submit', addExpense);
+
+      function addExpense(e) {
+        e.preventDefault();
+
+        let ajax = new XMLHttpRequest();
+        
+        ajax.open("POST", "add-expense.php", true);
+        ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        ajax.onload = function() {
+          console.log(this.responseText);
+          response.classList.add("alert-success")
+          response.textContent = this.responseText;
+          
+        }
+
+        ajax.send(`vendor=${ven.value}&amount=${amount.value}&date=${date.value}&description=${description.value}`);
+        if(addExpense) {
+          form.reset();
+        }
+        
+      }
+
+    </script>
+</body>
+</html>

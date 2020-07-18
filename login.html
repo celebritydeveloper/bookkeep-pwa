@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Bookkeep PWA</title>
+    <link rel="stylesheet" href="./css/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://kit.fontawesome.com/9e1546c7fe.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col text-center">
+                <img src="images/bfaf-full-color.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <h5 class="mb-3">Login</h5>
+
+                <form id="login-form" method="POST" action="">
+                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control " id="email" name="email" >
+                        <div class="valid-feedback d-none" id="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control " id="password" name="password">
+                        <div class="invalid-feedback d-none" id="valid-feedback-2">
+                          Please provide a valid password.
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <small class="">
+                        <a href="#">Forgot Password?
+                      </small>
+                    <div class="form-row mt-3">
+                        <div class="col text-center">
+                            <button class="btn btn-success btn-lg btn-wide" id="login-btn" type="submit" name="submit">LOGIN</button>
+                        </div>
+                        
+                    </div>
+                    <p class="login--notify mt-2 text-center">
+                        New to BOOKKEEP? <a href="signup.html">Sign Up</a> 
+                      </p>
+                  </form>
+
+            </div>
+        </div>
+    </div>
+
+    
+
+</body>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyDgo5Wx7trMR5oYsz31sQw-yLIjtQubwwA",
+        authDomain: "book-keep-5d162.firebaseapp.com",
+        databaseURL: "https://book-keep-5d162.firebaseio.com",
+        projectId: "book-keep-5d162",
+        appId: "1:81050176656:web:c71dbb79d52ab071b11c15",
+        measurementId: "G-2R9P2RQ2FP"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      //firebase.analytics();
+
+      // Make auth and firestore method reference
+      const auth = firebase.auth();
+      const database = firebase.firestore();
+
+
+    </script>
+
+
+<script src="./js/login.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="./css/bootstrap-4.4.1/js/src/util.js"></script>
+<script src="./css/bootstrap-4.4.1/dist/js/bootstrap.min.js"></script>
+</html>

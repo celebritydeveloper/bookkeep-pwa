@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookkeep PWA</title>
+    <link rel="stylesheet" href="../css/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../fonts/icofont/icofont.min.css">
+</head>
+<body class="bg-light">
+    <div class="container">
+        
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+              <p class=""><a href="income.html"><i class="icofont-arrow-left icofont-lg"></i></a></p>
+                <h5 class="text-center mb-4">Add New Income</h5>
+                <div class="alert" id="response"></div>
+                <form id="send-invoice-form">
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <select class="custom-select" id="customer">
+                              <option selected disabled value="">Select a Customer...</option>
+                            </select>
+                          </div>
+                      
+                     
+
+                      <div class="col-md-4 col-sm-12 mb-3">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" id="name" placeholder="Add a name payer if not a customer">
+                          </div>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 col-sm-12 mb-3">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" id="amount" placeholder="Amount">
+                          </div>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="form-row">
+                    <div class="col mb-3">
+                        <textarea class="form-control" id="description" rows="3" placeholder="Let them know why you are requesting payment"></textarea>
+                        <div class="invalid-feedback">
+                            Password must match
+                        </div>
+                    </div>
+                      
+                    </div>
+                    <div class="form-row mt-3 mb-3">
+                        <div class="col text-center">
+                            <button class="btn btn-success btn-lg" type="submit">ADD INCOME</button>
+                        </div>
+                        
+                    </div>
+                  </form>
+            </div>
+        </div>
+        
+    </div>
+
+
+
+    <script>
+
+      const form = document.getElementById("send-invoice-form");
+      let customer = document.getElementById("customer");
+      let name = document.getElementById("name");
+      let amount = document.getElementById("amount");
+      let description = document.getElementById("description");
+      let response = document.getElementById("response");
+
+
+      form.addEventListener('submit', sendInvoice);
+
+      function sendInvoice(e) {
+        e.preventDefault();
+
+        let ajax = new XMLHttpRequest();
+        
+        ajax.open("POST", "add-income.php", true);
+        ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        ajax.onload = function() {
+          console.log(this.responseText);
+          response.classList.add("alert-success")
+          response.textContent = this.responseText;
+          
+        }
+
+        ajax.send(`customer=${customer.value}&name=${name.value}&amount=${amount.value}&description=${description.value}`);
+        if(sendInvoice) {
+          form.reset();
+        }
+        
+      }
+
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', fetchProfile);
+
+    function fetchProfile() {
+        let ajax1 = new XMLHttpRequest();
+
+        ajax1.open('GET', 'get-customer.php', true);
+
+        ajax1.onload = function() {
+            if(this.status == 200) {
+                console.log(this.responseText);
+
+                let customers = JSON.parse(this.responseText);
+                console.log(customers);
+
+                customers.forEach((customer) => {
+                    let option = document.createElement("OPTION")
+                    option.textContent = `${customer.firstName} ${customer.lastName}`;
+                    option.value = `${customer.customer_id}`;                    
+                    const select = document.querySelector("#customer");
+
+                    select.appendChild(option);
+                });
+            }
+
+            
+        }
+
+        ajax1.send();
+    }
+    
+</script>
+</body>
+</html>
