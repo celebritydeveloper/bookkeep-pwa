@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookkeep PWA</title>
+    <link rel="stylesheet" href="./css/bootstrap-4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./fonts/icofont/icofont.min.css">
+</head>
+<body class="bg-light">
+    <div class="container">
+        
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                <p class=""><a href="customers.html"><i class="icofont-arrow-left icofont-lg"></i></a></p>
+                <h5 class="text-center mb-4">Add New Customer</h5>
+
+                <div class="alert" id="response"></div>
+                <form id="add-customer-form">
+                    <div class="form-row">
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="validationServer02">First Name</label>
+                            <input type="text" class="form-control is-valid" id="firstName">
+                            <div class="valid-feedback">
+                              Looks good!
+                            </div>
+                          </div>
+
+                          <div class="col-md-6 mb-3">
+                            <label for="validationServer02">Last Name</label>
+                            <input type="text" class="form-control is-valid" id="lastName">
+                            <div class="valid-feedback">
+                              Looks good!
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationServer02">Email Address</label>
+                        <input type="email" class="form-control is-valid" id="email">
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                        <label for="validationServer02">Company Name (optional)</label>
+                        <input type="text" class="form-control is-valid" id="company">
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row mt-2 mb-3">
+                        <div class="col text-center">
+                            <button class="btn btn-success btn-lg btn-wide" type="submit">ADD CUSTOMER</button>
+                        </div>
+                        
+                    </div>
+                  </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+      const form = document.getElementById("add-customer-form");
+      let fname = document.getElementById("firstName");
+      let lname = document.getElementById("lastName");
+      let email = document.getElementById("email");
+      let company = document.getElementById("company");
+      let response = document.getElementById("response");
+
+
+      form.addEventListener('submit', addCustomer);
+
+      function addCustomer(e) {
+        e.preventDefault();
+
+        // let param = "name="+ven;
+        // const formData = new FormData();
+
+        // formData.append("name", ven);
+
+        let ajax = new XMLHttpRequest();
+        
+        ajax.open("POST", "add-customer.php", true);
+        ajax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        ajax.onload = function() {
+          console.log(this.responseText);
+          response.classList.add("alert-success")
+          response.textContent = this.responseText;
+          
+        }
+
+        ajax.send(`fname=${fname.value}&lname=${lname.value}&email=${email.value}&company=${company.value}`);
+        if(addCustomer) {
+          form.reset();
+        }
+        
+      }
+
+    </script>
+</body>
+</html>
